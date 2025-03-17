@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>FPS Demo</title>
+</head>
+<body>
+    <div id="result"></div>
+    <script type="module">
+        import { checking } from './src/index.ts';
+        
+        const result = checking(true);
+        document.getElementById('result').innerHTML = `
+            <h2>Device Type: ${result.device}</h2>
+            <pre>${JSON.stringify(result.debugInfo, null, 2)}</pre>
+        `;
+    </script>
+</body>
+</html>
