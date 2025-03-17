@@ -60,7 +60,6 @@ function isWebKit() {
     ]) >= 4);
 }
 
-
 function isAndroid() {
     var isItChromium = isChromium();
     var isItGecko = isGecko();
@@ -139,6 +138,8 @@ export function checking(isDebug = false)
         }        
     }
 
+  
+
     return {
         device: result,
         debugInfo:isDebug ? {
@@ -151,7 +152,7 @@ export function checking(isDebug = false)
             isItTrident: isItTrident,
             screenWidth: screenWidth,
             screenHeight: screenHeight,
-            platform: navigator.platform
+            platform: navigator.platform           
         }:{}
     } 
     

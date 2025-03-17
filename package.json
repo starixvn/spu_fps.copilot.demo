@@ -6,7 +6,8 @@
   "scripts": {
     "build": "tsc",
     "start": "parcel index.html",
-    "test": "jest"
+    "test": "jest",
+    "clean": "if exist .parcel-cache rd /s /q .parcel-cache && if exist dist rd /s /q dist"
   },
   "dependencies": {},
   "devDependencies": {
