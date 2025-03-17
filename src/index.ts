@@ -1,3 +1,12 @@
+//write docstring for this function
+/**
+ * This function is used to check the device type of the user.
+ * It will return the device type as 'Mobile', 'Tablet' or 'Desktop'.
+ * It will also return the debug information if the isDebug parameter is set to true.
+ * @param isDebug - A boolean value to check if the debug information is required or not.
+ * @returns - It will return an object with the device type and debug information if required.
+ **/
+
 export function countTruthy(values: boolean[]): number {
   return values.reduce(function (sum: number, value: boolean): number {         
     return sum + (value ? 1 : 0); 
