@@ -611,20 +611,25 @@ document.getElementById('result').innerHTML = `
         `;
 
 },{"./src/index.ts":"h7u1C"}],"h7u1C":[function(require,module,exports,__globalThis) {
+// write docstring here for index.ts
+// This file is the entry point of the library. 
+// It contains the main function that checks the device type and returns the result.
+// The function uses helper functions to check the device type based on the browser and platform.
+// The helper functions use feature detection to determine the device type.
+// The result is an object with the device type and debug info. 
+// The debug info contains the results of the feature detection tests.
+// The function returns the device type and debug info as an object.
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "countTruthy", ()=>countTruthy);
-// get the user agent
-parcelHelpers.export(exports, "getUserAgent", ()=>getUserAgent);
-// parse the user agent to get the browser name and version number
-parcelHelpers.export(exports, "getBrowser", ()=>getBrowser);
+// For Chrome
+parcelHelpers.export(exports, "isChromium", ()=>isChromium);
 parcelHelpers.export(exports, "checking", ()=>checking);
 function countTruthy(values) {
     return values.reduce(function(sum, value) {
         return sum + (value ? 1 : 0);
     }, 0);
 }
-// For Chrome
 function isChromium() {
     var w = window;
     var n = navigator;
@@ -676,42 +681,6 @@ function isWebKit() {
         'WebKitMediaKeys' in w
     ]) >= 4;
 }
-function getUserAgent() {
-    return navigator.userAgent;
-}
-function getBrowser() {
-    var ua = getUserAgent();
-    var tem;
-    var M = ua.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || [];
-    if (/trident/i.test(M[1])) {
-        tem = /\brv[ :]+(\d+)/g.exec(ua) || [];
-        return {
-            name: 'IE',
-            version: tem[1] || ''
-        };
-    }
-    if (M[1] === 'Chrome') {
-        tem = ua.match(/\bOPR\/(\d+)/);
-        if (tem != null) return {
-            name: 'Opera',
-            version: tem[1]
-        };
-    }
-    M = M[2] ? [
-        M[1],
-        M[2]
-    ] : [
-        navigator.appName,
-        navigator.appVersion,
-        '-?'
-    ];
-    tem = ua.match(/version\/(\d+)/i);
-    if (tem != null) M.splice(1, 1, tem[1]);
-    return {
-        name: M[0],
-        version: M[1]
-    };
-}
 function isAndroid() {
     var isItChromium = isChromium();
     var isItGecko = isGecko();
@@ -734,6 +703,20 @@ function isIOS() {
         'ongestureend' in w,
         'standalone' in navigator
     ]) >= 3;
+}
+// GEt USer Agent
+function getUserAgent() {
+    return navigator.userAgent;
+}
+// Parse User Agent from result of method getUserAgent return browser name
+function parseUserAgent(userAgent) {
+    const browserMatch = userAgent.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || [];
+    const browserName = browserMatch[1] || '';
+    const browserVersion = browserMatch[2] || 0;
+    return {
+        browser: browserName,
+        version: browserVersion
+    };
 }
 function checking(isDebug = false) {
     var isItTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
@@ -766,8 +749,6 @@ function checking(isDebug = false) {
         ]) >= 3;
         if (isItDesktop || isItTrident) result = 'Desktop';
     }
-    const userAgent = getUserAgent();
-    const browser = getBrowser();
     return {
         device: result,
         debugInfo: isDebug ? {
@@ -781,8 +762,8 @@ function checking(isDebug = false) {
             screenWidth: screenWidth,
             screenHeight: screenHeight,
             platform: navigator.platform,
-            userAgent,
-            browser
+            userAgent: getUserAgent(),
+            browser: parseUserAgent(getUserAgent())
         } : {}
     };
 }
